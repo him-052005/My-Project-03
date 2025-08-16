@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Register New Student</h3>
+    <form method="post" class="grid">
+      <div><label>Roll No</label><input class="input" name="roll_no" required></div>
+      <div><label>Name</label><input class="input" name="name" required></div>
+      <div><label>Email</label><input class="input" name="email"></div>
+      <div><label>Class</label><input class="input" name="klass"></div>
+      <div><label>Section</label><input class="input" name="section"></div>
+      <button class="btn" type="submit">Save & Capture Face</button>
+    </form>
+    <small class="muted">After saving, webcam will open to capture ~20 face samples.</small>
+  </div>
+  <div class="card">
+    <h3>Tips</h3>
+    <ul>
+      <li>Ensure good lighting and keep face centered.</li>
+      <li>Turn your head slightly to capture variations.</li>
+      <li>Press <b>q</b> anytime to stop early.</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

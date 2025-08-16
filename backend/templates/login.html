@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Login – Attendance Toolkit{% endblock %}
+{% block content %}
+<div class="grid" style="max-width:520px;margin:60px auto">
+  <div class="card">
+    <h2>Admin Login</h2>
+    <form method="post" class="grid">
+      <div>
+        <label>Username</label>
+        <input class="input" name="username" placeholder="admin" required>
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" class="input" name="password" placeholder="admin123" required>
+      </div>
+      <button class="btn" type="submit">Login</button>
+    </form>
+    <small class="muted">Default: admin / admin123</small>
+  </div>
+</div>
+{% endblock %}
+

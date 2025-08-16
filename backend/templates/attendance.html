@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Mark Attendance – {{ today }}</h3>
+    <p>Open camera and press <b>q</b> to confirm the recognition frame.</p>
+    <button class="btn warn" id="markBtn">Open Camera & Mark</button>
+    <div id="markMsg" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <h3>Today</h3>
+    <table class="table" id="attTable">
+      <thead><tr><th>Roll No</th><th>Name</th><th>Status</th><th>Time</th></tr></thead>
+      <tbody id="attBody">
+        {% for r in table %}
+        <tr>
+          <td>{{ r.roll_no }}</td>
+          <td>{{ r.name }}</td>
+          <td>{{ r.status }}</td>
+          <td>{{ r.timestamp }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <a class="btn sec" href="{{ url_for('download_attendance_today') }}">Download Today (.xlsx)</a>
+      <a class="btn sec" href="{{ url_for('download_attendance_pdf') }}">PDF (Today)</a>
+    </div>
+    <div style="margin-top:10px">
+      <label>Pick a date</label>
+      <input class="input" type="date" id="pickDate">
+      <button class="btn" id="downloadByDate">Download by Date</button>
+    </div>
+  </div>
+</div>
+<script>
+async function refresh(){
+  const r = await fetch('/api/attendance_today');
+  const data = await r.json();
+  const body = document.getElementById('attBody');
+  body.innerHTML = data.rows.map(r=>`<tr><td>${r["Roll No"]}</td><td>${r["Name"]}</td><td>${r["Status"]}</td><td>${r["Timestamp"]}</td></tr>`).join('');
+}
+
+document.getElementById('markBtn').addEventListener('click', async ()=>{
+  document.getElementById('markMsg').innerText = 'Opening camera...';
+  try{
+    const r = await fetch('/api/mark_attendance', {method:'POST'});
+    const j = await r.json();
+    if(j.ok){
+      document.getElementById('markMsg').innerHTML = `✅ Marked <b>${j.roll_no} - ${j.name}</b> at ${j.time}`;
+    }else{
+      document.getElementById('markMsg').innerText = j.msg || 'No match';
+    }
+  }catch(e){
+    document.getElementById('markMsg').innerText = 'Failed to mark: ' + e.message;
+  }
+  setTimeout(refresh, 600);
+});
+
+document.getElementById('downloadByDate').addEventListener('click', ()=>{
+  const d = document.getElementById('pickDate').value; if(!d) return alert('Pick a date first');
+  window.location.href = `/download_attendance_by_date?date=${encodeURIComponent(d)}`;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-3">
+  <div class="pill kpi">
+    <div class="pill"><div>Total Students</div><h2>{{ total }}</h2></div>
+    <div class="pill"><div>Present Today</div><h2>{{ present }}</h2></div>
+    <div class="pill"><div>Date</div><h2>{{ day }}</h2></div>
+  </div>
+</div>
+<div class="grid grid-2" style="margin-top:18px">
+  <div class="card">
+    <h3>Quick Actions</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn" href="{{ url_for('register') }}">Register Student</a>
+      <a class="btn sec" href="{{ url_for('students') }}">View/Edit Students</a>
+      <a class="btn warn" href="{{ url_for('attendance_page') }}">Mark Attendance</a>
+      <a class="btn sec" href="{{ url_for('download_students') }}">Download Student Details</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

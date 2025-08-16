@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Edit Student</h3>
+    <form method="post" class="grid">
+      <div><label>Roll No</label><input class="input" name="roll_no" value="{{ st.roll_no }}" required></div>
+      <div><label>Name</label><input class="input" name="name" value="{{ st.name }}" required></div>
+      <div><label>Email</label><input class="input" name="email" value="{{ st.email or '' }}"></div>
+      <div><label>Class</label><input class="input" name="klass" value="{{ st.klass or '' }}"></div>
+      <div><label>Section</label><input class="input" name="section" value="{{ st.section or '' }}"></div>
+      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="recapture"> Re-capture face samples</label>
+      <button class="btn" type="submit">Save</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>Current Photo</h3>
+    {% if st.image_path %}
+      <img style="width:220px;border-radius:12px;border:1px solid #334155" src="/{{ st.image_path|replace('..\\','')|replace('..//','') }}">
+    {% else %}<div class="muted">No image yet</div>{% endif %}
+  </div>
+</div>
+{% endblock %}

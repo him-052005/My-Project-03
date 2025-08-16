@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Attendance Toolkit{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="nav">
+    <div class="brand">🎓 Attendance Toolkit</div>
+    {% if current_user.is_authenticated %}
+    <div>
+      <a class="btn sec" href="{{ url_for('register') }}">Register</a>
+      <a class="btn sec" href="{{ url_for('students') }}">Students</a>
+      <a class="btn sec" href="{{ url_for('attendance_page') }}">Attendance</a>
+      <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    {% endif %}
+  </div>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="card" style="border-left:4px solid #4f46e5">
+        {% for cat,msg in messages %}<div><strong>{{ cat|capitalize }}:</strong> {{ msg }}</div>{% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

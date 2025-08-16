@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3>Students</h3>
+    <div>
+      <a class="btn" href="{{ url_for('download_students') }}">Download (.xlsx)</a>
+      <a class="btn sec" href="{{ url_for('register') }}">+ Add</a>
+    </div>
+  </div>
+  <table class="table">
+    <thead><tr><th>Photo</th><th>Roll No</th><th>Name</th><th>Email</th><th>Class</th><th>Section</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for s in rows %}
+      <tr>
+        <td>
+          {% if s.image_path %}
+            <img class="img-thumb" src="/{{ s.image_path|replace('..\\','')|replace('..//','') }}" onerror="this.style.opacity=.2">
+          {% else %}
+            <div class="img-thumb" style="display:grid;place-items:center;color:var(--muted)">N/A</div>
+          {% endif %}
+        </td>
+        <td>{{ s.roll_no }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.email or '' }}</td>
+        <td>{{ s.klass or '' }}</td>
+        <td>{{ s.section or '' }}</td>
+        <td><a class="btn sec" href="{{ url_for('student_edit', sid=s.id) }}">Edit</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
